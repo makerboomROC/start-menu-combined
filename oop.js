@@ -4,6 +4,8 @@ function init() {
     return new Application();
 }
 
+// Dit is de applicatie, de groter doos om alle onderdelen, zo moet je hem zien.
+// Hij doet niets behalve de boel bij elkaar houden.
 function Application() {
     this.element = document.getElementById('application');
     var startMenu = this.startMenu = new StartMenu();
