@@ -16,7 +16,7 @@ function Application() {
 // Het bind een click event listener aan het HTML element en toggled het menu..
 function MenuButton(id, menu) {
     this.element = document.getElementById(id);
-    document.addEventListener('click', function() {
+    this.element.addEventListener('click', function() {
         menu.toggle();
     });
 }
