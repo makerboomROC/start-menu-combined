@@ -8,21 +8,24 @@ function init() {
 // Hij doet niets behalve de boel bij elkaar houden.
 function Application() {
     this.element = document.getElementById('application');
-    var startMenu = this.startMenu = new StartMenu();
+    this.startMenu = new StartMenu();
+    this.startButton = new MenuButton('start-button', this.startMenu);
+}
 
-    document.getElementById('start-button').addEventListener('click', function() {
-        startMenu.toggle();
+// Dit is een algemene menu button. Het vereist een HTML id en een menu.
+// Het bind een click event listener aan het HTML element en toggled het menu..
+function MenuButton(id, menu) {
+    this.element = document.getElementById(id);
+    document.addEventListener('click', function() {
+        menu.toggle();
     });
 }
 
 function StartMenu() {
     this.element = document.getElementById('start-menu');
-    var shutDownMenu = this.shutDownMenu = new ShutDownMenu();
+    this.shutDownMenu = new ShutDownMenu();
+    this.shutDownButton = new MenuButton('options-button', this.shutDownMenu);
     this.close();
-
-    document.getElementById('options-button').addEventListener('click', function() {
-        shutDownMenu.toggle();
-    });
 }
 
 StartMenu.prototype.open = function() {
