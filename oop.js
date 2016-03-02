@@ -4,12 +4,6 @@ function init() {
     return new Application();
 }
 
-function extend(target, source) {
-    Object.keys(source).forEach(function (key) {
-        target[key] = source[key];
-    });
-}
-
 // Dit is de applicatie, de groter doos om alle onderdelen, zo moet je hem zien.
 // Hij doet niets behalve de boel bij elkaar houden.
 function Application() {
@@ -27,6 +21,7 @@ function MenuButton(id, menu) {
     });
 }
 
+// Een gewoon menu, kan open en dicht, meer niet.
 function Menu(id) {
     this.element = document.getElementById(id);
     this.close();
@@ -50,6 +45,7 @@ Menu.prototype.toggle = function () {
     }
 };
 
+//Het start menu, dit heeft een submenu en een knop om dit submenu te openen en sluiten.
 function StartMenu() {
     //this.menu = new Menu('start-menu');
     this.shutDownMenu   = new Menu('shutdown-menu');
@@ -60,6 +56,7 @@ function StartMenu() {
 StartMenu.prototype.toggle = Menu.prototype.toggle;
 StartMenu.prototype.open = Menu.prototype.open;
 
+// Buiten dat we ons eigen element sluiten, sluiten we hier ook het submenu.
 StartMenu.prototype.close = function () {
     this.shutDownMenu.close();
     Menu.prototype.close.apply(this);
