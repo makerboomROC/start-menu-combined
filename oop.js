@@ -22,10 +22,9 @@ function MenuButton(id, menu) {
 }
 
 function StartMenu() {
-    this.element = document.getElementById('start-menu');
     this.shutDownMenu = new ShutDownMenu();
     this.shutDownButton = new MenuButton('options-button', this.shutDownMenu);
-    this.close();
+    Menu.apply(this, ['start-menu']);
 }
 
 StartMenu.prototype.open = function() {
@@ -48,8 +47,7 @@ StartMenu.prototype.toggle = function() {
 };
 
 function ShutDownMenu() {
-    this.element = document.getElementById('shutdown-menu');
-    this.close();
+    Menu.apply(this, ['shutdown-menu']);
 }
 
 ShutDownMenu.prototype.open = function() {
@@ -69,3 +67,8 @@ ShutDownMenu.prototype.toggle = function() {
         this.open();
     }
 };
+
+function Menu(id) {
+    this.element = document.getElementById(id);
+    this.close();
+}
