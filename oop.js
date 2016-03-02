@@ -4,11 +4,17 @@ function init() {
     return new Application();
 }
 
+function extend(target, source) {
+    Object.keys(source).forEach(function (key) {
+        target[key] = source[key];
+    });
+}
+
 // Dit is de applicatie, de groter doos om alle onderdelen, zo moet je hem zien.
 // Hij doet niets behalve de boel bij elkaar houden.
 function Application() {
-    this.element = document.getElementById('application');
-    this.startMenu = new StartMenu();
+    this.element     = document.getElementById('application');
+    this.startMenu   = new StartMenu();
     this.startButton = new MenuButton('start-button', this.startMenu);
 }
 
@@ -16,59 +22,45 @@ function Application() {
 // Het bind een click event listener aan het HTML element en toggled het menu..
 function MenuButton(id, menu) {
     this.element = document.getElementById(id);
-    this.element.addEventListener('click', function() {
+    this.element.addEventListener('click', function () {
         menu.toggle();
     });
 }
-
-function StartMenu() {
-    this.shutDownMenu = new ShutDownMenu();
-    this.shutDownButton = new MenuButton('options-button', this.shutDownMenu);
-    Menu.apply(this, ['start-menu']);
-}
-
-StartMenu.prototype.open = function() {
-    this.element.style.display = 'block';
-    this.opened = true;
-};
-
-StartMenu.prototype.close = function() {
-    this.element.style.display = 'none';
-    this.shutDownMenu.close();
-    this.opened = false;
-};
-
-StartMenu.prototype.toggle = function() {
-    if(this.opened) {
-        this.close();
-    } else {
-        this.open();
-    }
-};
-
-function ShutDownMenu() {
-    Menu.apply(this, ['shutdown-menu']);
-}
-
-ShutDownMenu.prototype.open = function() {
-    this.element.style.display = '';
-    this.opened = true;
-};
-
-ShutDownMenu.prototype.close = function() {
-    this.element.style.display = 'none';
-    this.opened = false;
-};
-
-ShutDownMenu.prototype.toggle = function() {
-    if(this.opened) {
-        this.close();
-    } else {
-        this.open();
-    }
-};
 
 function Menu(id) {
     this.element = document.getElementById(id);
     this.close();
 }
+
+Menu.prototype.close = function () {
+    this.element.style.display = 'none';
+    this.opened                = false;
+};
+
+Menu.prototype.open = function () {
+    this.element.style.display = '';
+    this.opened                = true;
+};
+
+Menu.prototype.toggle = function () {
+    if (this.opened) {
+        this.close();
+    } else {
+        this.open();
+    }
+};
+
+function StartMenu() {
+    //this.menu = new Menu('start-menu');
+    this.shutDownMenu   = new Menu('shutdown-menu');
+    this.shutDownButton = new MenuButton('options-button', this.shutDownMenu);
+    Menu.apply(this, ['start-menu']);
+}
+
+StartMenu.prototype.toggle = Menu.prototype.toggle;
+StartMenu.prototype.open = Menu.prototype.open;
+
+StartMenu.prototype.close = function () {
+    this.shutDownMenu.close();
+    Menu.prototype.close.apply(this);
+};
